@@ -17,6 +17,10 @@ import AgmSemanaCasamento from './componentes/AgendamentosSemanaCasamento';
 import AgmDiaCategoria from './componentes/AgendamentosDiaCategoria';
 import AgmMesCategoria from './componentes/AgendamentosMesCategoria';
 import AgmSemanaCategoria from './componentes/AgendamentosSemanaCategoria';
+import VndMesStatus from './componentes/VendaMesStatus';
+import VndMesFornecedor from './componentes/VendaMesFornecedor';
+import VndMesUsuario from './componentes/VendaMesUsuario';
+import VndMesCategoria from './componentes/VendaMesCategoria';
 import { AppFieldSet } from './styles';
 
 export default class App extends Component {
@@ -28,21 +32,24 @@ export default class App extends Component {
       users: [],
       weddings: [],
       appointments: [],
+      invoices: [],
       usrs_mes: [],
       usrs_dia: []
     }
   }
 
   async componentDidMount() {
-    const [users, weddings, appointments] = await Promise.all([
+    const [users, weddings, appointments, invoices] = await Promise.all([
       api.get("/user").then(resp => resp.data),
       api.get("/wedding").then(resp => resp.data),
-      api.get("/appointment").then(resp => resp.data)
+      api.get("/appointment").then(resp => resp.data),
+      api.get("/invoice").then(resp => resp.data)
     ]);
     this.setState({
       users: users,
       weddings: weddings,
-      appointments: appointments   
+      appointments: appointments,
+      invoices: invoices  
     })
   }
 
@@ -59,7 +66,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { appointments, weddings, users, usrs_mes, usrs_dia } = this.state;
+    const { invoices, appointments, weddings, users, usrs_mes, usrs_dia } = this.state;
     return (
       <div>
         <AppFieldSet>
@@ -89,6 +96,13 @@ export default class App extends Component {
           <AgmDiaCategoria agm={appointments} />
           <AgmMesCategoria agm={appointments} />
           <AgmSemanaCategoria agm={appointments} />
+        </AppFieldSet>
+        <AppFieldSet>
+          <legend><h1>Dados de Venda</h1></legend>
+          <VndMesStatus vnd={invoices} />
+          <VndMesFornecedor vnd={invoices} />
+          <VndMesUsuario vnd={invoices} />
+          <VndMesCategoria vnd={invoices} />
         </AppFieldSet>
       </div>
     );
