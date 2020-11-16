@@ -5,6 +5,19 @@ import UsrDia from './componentes/UsuariosDia';
 import UsrSemana from './componentes/UsuariosSemana';
 import CsmMes from './componentes/CasamentosMes';
 import CsmEstilo from './componentes/CasamentosEstilo';
+import AgmDia from './componentes/AgendamentosDia';
+import AgmMes from './componentes/AgendamentosMes';
+import AgmSemana from './componentes/AgendamentosSemana';
+import AgmDiaFornecedor from './componentes/AgendamentosDiaFornecedor';
+import AgmMesFornecedor from './componentes/AgendamentosMesFornecedor';
+import AgmSemanaFornecedor from './componentes/AgendamentosSemanaFornecedor';
+import AgmDiaCasamento from './componentes/AgendamentosDiaCasamento';
+import AgmMesCasamento from './componentes/AgendamentosMesCasamento';
+import AgmSemanaCasamento from './componentes/AgendamentosSemanaCasamento';
+import AgmDiaCategoria from './componentes/AgendamentosDiaCategoria';
+import AgmMesCategoria from './componentes/AgendamentosMesCategoria';
+import AgmSemanaCategoria from './componentes/AgendamentosSemanaCategoria';
+import { AppFieldSet } from './styles';
 
 export default class App extends Component {
   constructor(props){
@@ -14,19 +27,22 @@ export default class App extends Component {
     this.state = {
       users: [],
       weddings: [],
+      appointments: [],
       usrs_mes: [],
       usrs_dia: []
     }
   }
 
   async componentDidMount() {
-    const [users, weddings] = await Promise.all([
+    const [users, weddings, appointments] = await Promise.all([
       api.get("/user").then(resp => resp.data),
-      api.get("/wedding").then(resp => resp.data)
+      api.get("/wedding").then(resp => resp.data),
+      api.get("/appointment").then(resp => resp.data)
     ]);
     this.setState({
       users: users,
-      weddings: weddings
+      weddings: weddings,
+      appointments: appointments   
     })
   }
 
@@ -43,23 +59,37 @@ export default class App extends Component {
   }
 
   render() {
-    const { weddings, users, usrs_mes, usrs_dia } = this.state;
+    const { appointments, weddings, users, usrs_mes, usrs_dia } = this.state;
     return (
       <div>
-        <fieldset>
-          <legend><h1>Dados dos Usuários</h1></legend>
+        <AppFieldSet>
+          <legend><h1>Dados do Usuário</h1></legend>
             <UsrMes usrs={users} evtAddUsuariosMes={this.usuariosMes} />
             <h3>Total: {usrs_mes.length}</h3>
             <UsrDia usrs={users} evtAddUsuariosDia={this.usuariosDia} />
             <h3>Total: {usrs_dia.length}</h3>
             <UsrSemana usrs={users} />
-        </fieldset>
-        <br></br><br></br>
-        <fieldset>
-          <legend><h1>Dados dos Casamentos</h1></legend>
+        </AppFieldSet>
+        <AppFieldSet>
+          <legend><h1>Dados do Casamento</h1></legend>
             <CsmMes wds={weddings} />
             <CsmEstilo wds={weddings} />
-        </fieldset>
+        </AppFieldSet>
+        <AppFieldSet>
+          <legend><h1>Dados de Agendamento</h1></legend>
+          <AgmDia agm={appointments} />
+          <AgmMes agm={appointments} />
+          <AgmSemana agm={appointments} />
+          <AgmDiaFornecedor agm={appointments} />
+          <AgmMesFornecedor agm={appointments} />
+          <AgmSemanaFornecedor agm={appointments} />
+          <AgmDiaCasamento agm={appointments} />
+          <AgmMesCasamento agm={appointments} />
+          <AgmSemanaCasamento agm={appointments} />
+          <AgmDiaCategoria agm={appointments} />
+          <AgmMesCategoria agm={appointments} />
+          <AgmSemanaCategoria agm={appointments} />
+        </AppFieldSet>
       </div>
     );
   }
