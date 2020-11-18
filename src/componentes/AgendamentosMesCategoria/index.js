@@ -66,7 +66,7 @@ export default class AgmMesCategoria extends Component {
                   <option value="CANCELED">Cancelados</option>
                   <option value="CONFIRMED">Confirmados</option>
                   <option value="VISITED">Visitados</option>
-                </select>
+              </select>
               <label for="fornecedor">Categoria: </label>
               <select id="categoria" onChange={this.handleCategoria}>
                   <option value="" selected>Escolha...</option>
@@ -75,7 +75,7 @@ export default class AgmMesCategoria extends Component {
                   <option value="espaco">Espaço</option>
                   <option value="foto-e-filmagem">Foto e Filmagem</option>
                   <option value="lista-de-presentes">Lista de Presentes</option>
-                </select>
+              </select>
               <label for="qtd">Quantidade: </label>
               <input ref={this.qtd} type="number" disabled />
             </IndicadorAgmMesCategoria>
